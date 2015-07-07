@@ -20,6 +20,9 @@ func (api *API) HistoryGet(params Params) (res HistoryItems, err error) {
 	if _, presentl := params["limit"]; !presentl {
 		params["limit"] = "100"
 	}
+	if _, presenth := params["history"]; !presenth {
+		params["history"] = "0"
+	}
 	response, err := api.CallWithError("history.get", params)
 	if err != nil {
 		return
