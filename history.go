@@ -1,14 +1,37 @@
 package zabbix
 
 import (
-	"github.com/AlekSi/reflector"
+	_ "encoding/json"
+	"fmt"
+	"github.com/sdhjl2000/reflector"
+	"strconv"
+	"time"
 )
 
+type Timestamp time.Time
+
+func (t *Timestamp) MarshalJSON() ([]byte, error) {
+	ts := time.Time(*t).Unix()
+	stamp := fmt.Sprint(ts)
+	return []byte(stamp), nil
+}
+func (t *Timestamp) UnmarshalJSON(b []byte) error {
+	ts, err := strconv.Atoi(string(b))
+	if err != nil {
+		return err
+	}
+	*t = Timestamp(time.Unix(int64(ts), 0))
+	return nil
+}
+func (t *Timestamp) String() string {
+	return time.Time(*t).String()
+}
+
 type HistoryItem struct {
-	ItemId string `json:"itemid"`
-	Clock  string `json:"clock"`
-	Value  string `json:"value"`
-	ns     string `json:"ns"`
+	ItemId string    `json:"itemid"`
+	Clock  Timestamp `json:"clock"`
+	Value  float32   `json:"value"`
+	Ns     int       `json:"ns"`
 }
 
 type HistoryItems []HistoryItem
@@ -27,6 +50,7 @@ func (api *API) HistoryGet(params Params) (res HistoryItems, err error) {
 	if err != nil {
 		return
 	}
+	//fmt.Println(response.Result)
 
 	reflector.MapsToStructs2(response.Result.([]interface{}), &res, reflector.Strconv, "json")
 	return

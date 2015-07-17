@@ -2,7 +2,7 @@ package zabbix
 
 import (
 	"fmt"
-	"github.com/AlekSi/reflector"
+	"github.com/sdhjl2000/reflector"
 )
 
 type (
@@ -63,6 +63,8 @@ type Item struct {
 	Error       string    `json:"error"`
 	History     int       `json:"history,omitempty"`
 	Trends      int       `json:"trends,omitempty"`
+	Lastvalue   string    `json:"lastvalue"`
+	Lastclock   string    `json:"lastclock"`
 
 	// Fields below used only when creating applications
 	ApplicationIds []string `json:"applications,omitempty"`
