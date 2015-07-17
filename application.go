@@ -1,7 +1,7 @@
 package zabbix
 
 import (
-	"github.com/AlekSi/reflector"
+	"github.com/sdhjl2000/reflector"
 )
 
 // https://www.zabbix.com/documentation/2.0/manual/appendix/api/application/definitions
